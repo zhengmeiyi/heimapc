@@ -68,7 +68,7 @@ export default {
 
         }).then(res => {
           // 成功后获取token
-          window.localStorage.setItem('use_token', 'res.data.data.token')
+          window.localStorage.setItem('user_token', res.data.data.token)
           // 跳转到主页
           this.$router.push('/home')
         }).catch(() => {

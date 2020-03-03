@@ -10,7 +10,7 @@
       <img src="../../assets/img/avatar.jpg" alt="">
       <!-- -----------------------------------下拉菜单 -->
       <el-dropdown>
-          <span>时光空城</span>
+          <span>{{user_info.name}}</span>
           <el-dropdown-menu>
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>git地址</el-dropdown-item>
@@ -25,7 +25,24 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      user_info: {}
+    }
+  },
+  created () {
+    const token = localStorage.getItem('user_token')
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        Authorization: `Bearer ${token}` // 必须有空格
+      }
+    }).then(result => {
+      console.log(result)
+      this.user_info = result.data.data
+      console.log(this.user_info)
+    })
+  }
 }
 </script>
 
