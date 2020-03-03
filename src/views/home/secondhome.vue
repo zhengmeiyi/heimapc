@@ -1,8 +1,8 @@
 <template>
-  <el-carousel autoplay='true' class="abs" :interval="4000" type="card" height="200px">
-    <el-carousel-item height="300" v-for="item in list" :key="item">
+  <el-carousel :autoplay='true' class="abs" :interval="4000" type="card" height="200px">
+    <el-carousel-item v-for="item in list" :key="item">
       <!-- <h3 class="medium">{{ item }}</h3> -->
-      <img width="100%" class="medium" :src="item" alt="">
+      <img  class="medium" :src="item" alt="">
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -18,20 +18,26 @@ export default {
 </script>
 
 <style>
-
-.el-carousel__item h3 {
+.abs {
+    height: 500px;
+    margin:30px 0;
+}
+.el-carousel__item img {
     color: #475669;
     font-size: 14px;
     opacity: 0.75;
-    line-height: 200px;
+    line-height: 400px;
     margin: 0;
+    height: 100vh;
   }
 
   .el-carousel__item:nth-child(2n) {
     background-color: #99a9bf;
+    height: 300px;
   }
 
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+    height: 300px;
   }
 </style>
