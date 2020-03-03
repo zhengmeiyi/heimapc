@@ -9,7 +9,6 @@
         <layout-head></layout-head>
       </el-header>
       <el-main style="padding:0">
-        <h1>我是二级路由区</h1>
         <router-view></router-view>
       </el-main>
     </el-container>
