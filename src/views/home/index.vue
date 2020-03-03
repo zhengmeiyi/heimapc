@@ -1,6 +1,15 @@
 <template>
   <div>
-  <h1>我是home</h1>
+  <el-container>
+    <el-aside><h1>我是侧边栏</h1></el-aside>
+    <el-container>
+      <el-header><h1>我是头部</h1></el-header>
+      <el-main>
+        <h1>我是二级路由区</h1>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
+  </el-container>
   </div>
 </template>
 
