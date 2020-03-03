@@ -19,14 +19,8 @@
 
 <script>
 // @ is an alias to /src
-import layoutaside from '../../components/home/layout_aside'
-import layouthead from '../../components/home/layout_head'
-
 export default {
-  components: {
-    'layout-aside': layoutaside,
-    'layout-head': layouthead
-  }
+
 }
 
 </script>
