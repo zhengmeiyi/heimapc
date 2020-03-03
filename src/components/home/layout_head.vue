@@ -9,12 +9,12 @@
     <el-row type="flex" justify="end" align="middle">
       <img src="../../assets/img/avatar.jpg" alt="">
       <!-- -----------------------------------下拉菜单 -->
-      <el-dropdown>
+      <el-dropdown @command="clickMenu">
           <span>{{user_info.name}}</span>
           <el-dropdown-menu>
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>git地址</el-dropdown-item>
-            <el-dropdown-item> <i class="el-icon-switch-button"></i> 退出</el-dropdown-item>
+            <el-dropdown-item command="info">个人信息</el-dropdown-item>
+            <el-dropdown-item command="git">git地址</el-dropdown-item>
+            <el-dropdown-item command="lgout"> <i class="el-icon-switch-button"></i> 退出</el-dropdown-item>
           </el-dropdown-menu>
       </el-dropdown>
 
@@ -28,6 +28,18 @@ export default {
   data () {
     return {
       user_info: {}
+    }
+  },
+  methods: {
+    clickMenu (command) {
+      if (command === 'info') {
+
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/zhengmeiyi'
+      } else {
+        window.localStorage.removeItem('user_token')
+        this.$router.push('/login')
+      }
     }
   },
   created () {
