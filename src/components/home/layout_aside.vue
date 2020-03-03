@@ -53,8 +53,8 @@ export default {
   .title {
     height: 35px;
     text-align: center;
-    padding:5px 0;
-    margin-bottom: 15px;
+    padding:10px 0;
+    margin-bottom: 25px;
   }
   .menu {
     border-right: none;
