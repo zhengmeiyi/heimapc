@@ -7,7 +7,7 @@
        </span></el-col>
   <el-col :span="12" class="right">
     <el-row type="flex" justify="end" align="middle">
-      <img src="../../assets/img/avatar.jpg" alt="">
+      <img :src="user_info.photo" alt="">
       <!-- -----------------------------------下拉菜单 -->
       <el-dropdown @command="clickMenu">
           <span>{{user_info.name}}</span>
@@ -43,12 +43,12 @@ export default {
     }
   },
   created () {
-    const token = localStorage.getItem('user_token')
+    // const token = localStorage.getItem('user_token')
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        Authorization: `Bearer ${token}` // 必须有空格
-      }
+      url: '/user/profile'
+      // headers: {
+      //   Authorization: `Bearer ${token}` // 必须有空格
+      // }
     }).then(result => {
       console.log(result)
       this.user_info = result.data.data

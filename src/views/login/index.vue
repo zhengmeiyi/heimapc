@@ -59,6 +59,7 @@ export default {
   methods: {
     login () {
       // 手动验证
+
       this.$refs.loginForm.validate().then(() => {
         // 求接口
         this.$axios({
@@ -71,7 +72,9 @@ export default {
           window.localStorage.setItem('user_token', res.data.data.token)
           // 跳转到主页
           this.$router.push('/home')
-        }).catch(() => {
+        }).catch((error) => {
+          console.log(error)
+
           this.$message({
             message: '您的手机号或验证码不正确',
             type: 'warning'
