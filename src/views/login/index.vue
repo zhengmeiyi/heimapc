@@ -69,14 +69,12 @@ export default {
 
         }).then(res => {
           // 成功后获取token
-          console.log(res)
+          // console.log(res)
 
           window.localStorage.setItem('user_token', res.data.token)
           // 跳转到主页
           this.$router.push('/home')
-        }).catch((error) => {
-          console.log(error)
-
+        }).catch(() => {
           this.$message({
             message: '您的手机号或验证码不正确',
             type: 'warning'

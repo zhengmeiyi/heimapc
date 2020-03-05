@@ -18,6 +18,9 @@ const routes = [
       {
         path: '',
         component: SecondHome
+      }, {
+        path: '/home/comment', // 评论列表
+        component: () => import('@/views/comment') // 按需加载
       }
     ]
   },

@@ -43,16 +43,10 @@ export default {
     }
   },
   created () {
-    // const token = localStorage.getItem('user_token')
     this.$axios({
       url: '/user/profile'
-      // headers: {
-      //   Authorization: `Bearer ${token}` // 必须有空格
-      // }
     }).then(result => {
-      console.log(result)
       this.user_info = result.data
-      console.log(this.user_info)
     })
   }
 }
