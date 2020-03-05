@@ -11,7 +11,7 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 // axios拦截器 统一处理响应数据
-axios.interceptors.response.user(function (response) {
+axios.interceptors.response.use(function (response) {
   return response.data ? response.data : {}
 }, function (error) {
   // 失败时执行
