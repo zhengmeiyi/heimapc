@@ -19,6 +19,11 @@
 
         </el-table-column>
     </el-table>
+    <el-row type="flex" style="height:80px" justify="center" align="middle">
+     <el-pagination @current-change="changepage" :page-size="pages.pageSize" :current-page="pages.currentPage" :total="pages.total" background layout="prev, pager, next" >
+      </el-pagination>
+    </el-row>
+
   </div>
 </template>
 
@@ -26,19 +31,33 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      pages: {
+        pageSize: 10, // 每页显示条数
+        currentPage: 1, // 当前页码
+        total: 0 // 总条数
+      }
     }
   },
   methods: {
+    // 当前页码改变触发的事件
+    changepage (newpage) {
+      this.pages.currentPage = newpage
+      console.log(newpage)
+      this.getComment()
+    },
     // 获取评论
     getComment () {
       this.$axios({
         url: '/articles',
         params: {
-          response_type: 'comment'
+          response_type: 'comment',
+          per_page: this.pages.pageSize,
+          page: this.pages.currentPage
         }
       }).then(res => {
         console.log(res)
+        this.pages.total = res.data.total_count // 总条数
         this.list = res.data.results
       })
     },
