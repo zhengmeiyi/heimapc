@@ -33,8 +33,11 @@
               </div>
           </el-tab-pane>
         </el-tabs>
+</el-row>
+    <el-row type="flex" style="height:80px" justify="center" align="middle">
+     <el-pagination @current-change="changepage" :page-size="pages.pageSize" :current-page="pages.currentPage" :total="pages.total" background layout="prev, pager, next" >
+      </el-pagination>
       </el-row>
-
   </div>
 </template>
 
@@ -43,20 +46,37 @@ export default {
   data () {
     return {
       activeName: 'all',
-      list: []
+      list: [],
+      pages: {
+        pageSize: 8, // 每页显示条数
+        currentPage: 1, // 当前页码
+        total: 0 // 总条数
+      }
     }
   },
   methods: {
+  // 当前页码改变触发的事件
+    changepage (newpage) {
+      this.pages.currentPage = newpage
+      this.getimages()
+    },
     changtab () {
+      this.pages.currentPage = 1
       this.getimages()
     },
     getimages () {
       this.$axios({
         url: '/user/images',
-        collect: this.activeName === 'collect'
+        params: {
+          collect: this.activeName === 'collect',
+          //   page: this.currentPage,
+          page: this.pages.currentPage,
+          per_page: this.pages.pageSize
+        }
 
       }).then((res) => {
         console.log(res)
+        this.pages.total = res.data.total_count
         this.list = res.data.results
       }).catch((err) => {
         console.log(err)
