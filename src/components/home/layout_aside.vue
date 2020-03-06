@@ -48,7 +48,7 @@ export default {
 <style lang = 'less' scoped>
 .bj {
   background-color: #445c60;
-  height: 100%;
+  height: 100vh;
   width: 230px;
   .title {
     height: 35px;
