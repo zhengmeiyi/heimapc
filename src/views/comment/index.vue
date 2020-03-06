@@ -54,7 +54,7 @@ export default {
           url: '/comments/status',
           method: 'put',
           params: {
-            article_id: row.id
+            article_id: row.id.toString() // 大数字问题
           },
           data: {
             allow_comment: !row.comment_status

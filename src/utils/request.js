@@ -1,7 +1,14 @@
 import axios from 'axios' // 引入axios
 import router from '../router'
+import JSONBig from 'json-bigint'
 // import router from '@/router' // 路由实例对象
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 配置基地址
+
+// 处理大数字问题
+axios.defaults.transformResponse = [function (data) {
+  return data ? JSONBig.parse(data) : {}
+}]
+
 // axios拦截器 统一处理请求token
 axios.interceptors.request.use(function (config) {
   const token = localStorage.getItem('user_token')
