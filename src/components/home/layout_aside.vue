@@ -45,10 +45,10 @@ export default {
 }
 </script>
 
-<style lang = 'less' scope>
+<style lang = 'less' scoped>
 .bj {
   background-color: #445c60;
-  height: 100vh;
+  height: 100%;
   width: 230px;
   .title {
     height: 35px;
