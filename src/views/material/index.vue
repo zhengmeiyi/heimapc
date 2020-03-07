@@ -4,8 +4,8 @@
           <bread-crumb slot='header'>
           <template slot="title">素材管理</template>
           </bread-crumb>
-      </el-card>
-      <el-row type="flex" justify="end">
+
+           <el-row type="flex" justify="end">
           <el-upload action="" :show-file-list="false" :http-request="uploadImg"><el-button  size="small" type='primary'>上传图片</el-button></el-upload>
       </el-row>
       <el-row type="flex" style="margin:30px">
@@ -49,6 +49,8 @@
           </el-carousel-item>
            </el-carousel>
       </el-dialog>
+      </el-card>
+
   </div>
 </template>
 

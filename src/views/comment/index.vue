@@ -4,8 +4,8 @@
           <bread-crumb slot='header'>
           <template slot="title">评论列表</template>
           </bread-crumb>
-      </el-card>
-    <el-table :data="list" v-loading="loading">
+
+          <el-table :data="list" v-loading="loading">
         <el-table-column width="400" prop="title" label="标题"></el-table-column>
         <el-table-column :formatter="formatterBool" prop="comment_status" label="评论状态"></el-table-column>
         <el-table-column prop="total_comment_count" label="总评论数"></el-table-column>
@@ -23,6 +23,7 @@
      <el-pagination @current-change="changepage" :page-size="pages.pageSize" :current-page="pages.currentPage" :total="pages.total" background layout="prev, pager, next" >
       </el-pagination>
     </el-row>
+      </el-card>
 
   </div>
 </template>
