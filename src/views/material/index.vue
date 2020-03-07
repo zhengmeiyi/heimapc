@@ -12,8 +12,8 @@
         <el-tabs type="card" v-model="activeName" @tab-click="changtab">
           <el-tab-pane label="全部素材" name="all">
               <div class="imglist">
-                <el-card v-for="item in list" :key="item.id" class="imgcard">
-                  <img :src="item.url" alt="" class="images">
+               <el-card v-for="(item,index) in list" :key="item.id" class="imgcard">
+                  <img :src="item.url" alt="" class="images" @click='seleimg(index)'>
                   <el-row class="operate" type="flex" align="middle" justify="space-around">
                         <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':'black'}" class='el-icon-star-on'></i>
                         <i @click="delImage(item)" class='el-icon-delete-solid'></i>
@@ -25,8 +25,8 @@
           </el-tab-pane>
           <el-tab-pane label="收藏素材" name="collect">
               <div class="imglist">
-                <el-card v-for="item in list" :key="item.id" class="imgcard">
-                  <img :src="item.url" alt="" class="images">
+                <el-card v-for="(item,index) in list" :key="item.id" class="imgcard">
+                  <img :src="item.url" alt="" class="images" @click='seleimg(index)'>
                   <el-row class="operate" type="flex" align="middle" justify="space-around">
                         <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':'black'}" class='el-icon-star-on'></i>
                         <i @click="delImage(item)" class='el-icon-delete-solid'></i>
@@ -41,6 +41,14 @@
      <el-pagination @current-change="changepage" :page-size="pages.pageSize" :current-page="pages.currentPage" :total="pages.total" background layout="prev, pager, next" >
       </el-pagination>
       </el-row>
+      <!-- ----------------走马灯组件 -->
+      <el-dialog @opened="openEnd" :visible="dialog" @close='dialog=false'>
+          <el-carousel ref="myCarousel" indicator-position="outside" height="350px">
+            <el-carousel-item v-for="item in list" :key="item">
+             <img style="width:100%;height:100%" :src="item.url" alt="" class="images">
+          </el-carousel-item>
+           </el-carousel>
+      </el-dialog>
   </div>
 </template>
 
@@ -54,10 +62,21 @@ export default {
         pageSize: 8, // 每页显示条数
         currentPage: 1, // 当前页码
         total: 0 // 总条数
-      }
+      },
+      dialog: false,
+      clickindex: -1
     }
   },
   methods: {
+    // 把图片索引给走马灯
+    openEnd () {
+      this.$refs.myCarousel.setActiveItem(this.clickindex)
+    },
+    // 获取点击图片索引
+    seleimg (index) {
+      this.clickindex = index
+      this.dialog = true
+    },
     // 删除素材
     delImage (row) {
       this.$confirm('您确定要删除吗？').then(() => {
