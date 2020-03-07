@@ -24,6 +24,12 @@ const routes = [
       }, {
         path: '/home/material', // 评论列表
         component: () => import('@/views/material') // 按需加载
+      }, {
+        path: '/home/articles', // 评论列表
+        component: () => import('@/views/articles') // 按需加载articles
+      }, {
+        path: '/home/publish', // 评论列表
+        component: () => import('@/views/publish') // 按需加载
       }
     ]
   },
