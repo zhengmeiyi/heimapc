@@ -15,8 +15,8 @@
                 <el-card v-for="item in list" :key="item.id" class="imgcard">
                   <img :src="item.url" alt="" class="images">
                   <el-row class="operate" type="flex" align="middle" justify="space-around">
-                        <i class='el-icon-star-on'></i>
-                        <i class='el-icon-delete-solid'></i>
+                        <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':'black'}" class='el-icon-star-on'></i>
+                        <i @click="delImage(item)" class='el-icon-delete-solid'></i>
                   </el-row>
 
               </el-card>
@@ -28,8 +28,8 @@
                 <el-card v-for="item in list" :key="item.id" class="imgcard">
                   <img :src="item.url" alt="" class="images">
                   <el-row class="operate" type="flex" align="middle" justify="space-around">
-                        <i class='el-icon-star-on'></i>
-                        <i class='el-icon-delete-solid'></i>
+                        <i @click="collectOrCancel(item)" :style="{color:item.is_collected?'red':'black'}" class='el-icon-star-on'></i>
+                        <i @click="delImage(item)" class='el-icon-delete-solid'></i>
                   </el-row>
 
               </el-card>
@@ -58,6 +58,33 @@ export default {
     }
   },
   methods: {
+    // 删除素材
+    delImage (row) {
+      this.$confirm('您确定要删除吗？').then(() => {
+        this.$axios({
+          url: `/user/images/${row.id}`,
+          method: 'delete'
+        }).then((res) => {
+          this.getimages()
+        }).catch(() => {
+          this.$message.error('删除失败')
+        })
+      })
+    },
+    // 取消或收藏素材
+    collectOrCancel (row) {
+      this.$axios({
+        url: `/user/images/${row.id}`,
+        method: 'put',
+        data: {
+          collect: !row.is_collected
+        }
+      }).then((res) => {
+        this.getimages()
+      }).catch(() => {
+        this.$message.error('收藏失败')
+      })
+    },
     // 上传图片
     uploadImg (params) {
       console.log(params)
@@ -119,8 +146,8 @@ export default {
         width: 220px;
         height: 240px;
     .images {
-        width:100%;
-        height:100%;
+        width:150px;
+        height:150px;
     }
     .operate {
         height: 30px;

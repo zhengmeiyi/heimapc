@@ -1,7 +1,7 @@
 <template>
   <div>
   <el-container>
-    <el-aside style="width:230px">
+    <el-aside style="width:230px;background:#445c60">
       <layout-aside></layout-aside>
     </el-aside>
     <el-container style="padding:0">
