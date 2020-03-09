@@ -47,8 +47,8 @@
             </div>
 
             <div class="right">
-              <i class="el-icon-edit"> 修改</i>
-              <i class="el-icon-delete"> 删除</i>
+              <span ><i class="el-icon-edit"> 修改</i></span>
+              <span @click="delMaterial(item.id.toString())"><i class="el-icon-delete" > 删除</i></span>
             </div>
           </div>
           <!-- ------------------------------------------分页组件 -->
@@ -93,7 +93,6 @@ export default {
         url: '/articles',
         params
       }).then(res => {
-        console.log(res)
         this.newslist = res.data.results
         this.page.total = res.data.total_count
       })
@@ -112,6 +111,18 @@ export default {
     changpage (newpage) { // 改变页码
       this.page.currentPage = newpage
       this.changCondition()
+    },
+    delMaterial (id) { // 删除文章
+      this.$confirm('您确定要删除吗？', '提示').then(() => {
+        this.$axios({
+          url: `/articles/${id}`,
+          method: 'DELETE'
+        }).then(res => {
+          this.changCondition() // 带条件删除，否则会重新加载
+        }).catch(() => {
+          this.$message.error('文章删除失败', '提示')
+        })
+      })
     }
   },
   created () {
