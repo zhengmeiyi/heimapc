@@ -10,8 +10,8 @@
      <el-form-item label="内容：" prop="content">
        <el-input  v-model="publishForm.content" type="textarea" rows="12" style="width:60%" placeholder="请输入您的内容" ></el-input>
      </el-form-item>
-      <el-form-item label="封面：">
-       <el-radio-group v-model="publishForm.cover">
+      <el-form-item label="封面：" prop="cover">
+       <el-radio-group v-model="publishForm.cover.type">
          <el-radio :label="1">单图</el-radio>
          <el-radio :label="3">三图</el-radio>
          <el-radio :label="0">无图</el-radio>
@@ -25,8 +25,8 @@
        </el-select>
      </el-form-item>
      <el-form-item style="margin-left:60px">
-       <el-button @click="publish" type="success" round>发布文章</el-button>
-       <el-button @click="publish" type="info" round>存入草稿</el-button>
+       <el-button @click="publish(false)" type="success" round>发布文章</el-button>
+       <el-button @click="publish(true)" type="info" round>存入草稿</el-button>
      </el-form-item>
    </el-form>
  </el-card>
@@ -63,8 +63,22 @@ export default {
         this.channels = res.data.channels
       })
     },
-    publish () {
-      this.$refs.myForm.validate()
+    publish (draft) {
+      this.$refs.myForm.validate().then(() => {
+        this.$axios({
+          url: '/articles',
+          method: 'post',
+          params: {
+            draft
+          },
+          data: this.publishForm
+        }).then(res => {
+          this.$message.success('发布成功')
+          this.$router.push('/home/articles')
+        }).catch(() => {
+          this.$message.success('发布失败')
+        })
+      })
     }
   },
   created () {
