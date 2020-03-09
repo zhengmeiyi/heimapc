@@ -125,7 +125,7 @@ export default {
       })
     },
     editMaterial (id) { // 跳往编辑文章页面
-      this.$router.push(`/home/publish/:${id}`)
+      this.$router.push(`/home/publish/${id}`)
     }
   },
   created () {

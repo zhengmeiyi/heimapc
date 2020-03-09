@@ -65,24 +65,35 @@ export default {
     },
     publish (draft) {
       this.$refs.myForm.validate().then(() => {
+        const { articleId } = this.$route.params
         this.$axios({
-          url: '/articles',
-          method: 'post',
+          url: `/articles/${articleId}`,
+          method: articleId ? 'put' : 'post',
           params: {
             draft
           },
           data: this.publishForm
         }).then(res => {
-          this.$message.success('发布成功')
+          this.$message.success('操作成功')
           this.$router.push('/home/articles')
         }).catch(() => {
-          this.$message.success('发布失败')
+          this.$message.success('操作失败')
         })
+      })
+    },
+    getArticleById (id) {
+      this.$axios({
+        url: `/articles/${id}`
+      }).then(res => {
+        console.log(res)
+        this.publishForm = res.data
       })
     }
   },
   created () {
     this.getChannels()
+    const { articleId } = this.$route.params // 获取id
+    articleId && this.getArticleById(articleId) // 有id执行
   }
 
 }
