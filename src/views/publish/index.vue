@@ -18,9 +18,10 @@
          <el-radio label="">自动</el-radio>
        </el-radio-group>
      </el-form-item>
-     <el-form-item label="频道：">
-       <el-select placeholder="请选择频道">
-         <el-option>qq</el-option>
+     <el-form-item label="频道：" v-model="channels">
+       <el-select placeholder="请选择频道" value="" >
+         <!-- v-for="item in channels" :key="item" -->
+         <el-option v-for="item in channels" :key="item.id" :value="item.id" :label="item.name"></el-option>
        </el-select>
      </el-form-item>
      <el-form-item style="margin-left:60px">
@@ -33,6 +34,24 @@
 
 <script>
 export default {
+  data () {
+    return {
+      channels: []
+    }
+  },
+  methods: {
+    getChannels () {
+      this.$axios({
+        url: '/channels'
+      }).then(res => {
+        console.log(res)
+        this.channels = res.data.channels
+      })
+    }
+  },
+  created () {
+    this.getChannels()
+  }
 
 }
 </script>
