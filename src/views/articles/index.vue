@@ -7,21 +7,21 @@
           <el-form>
               <el-form-item label="文章状态：">
                   <!-- 文章状态，0-草稿，1-待审核，2-审核通过，3-审核失败，4-已删除，不传为全部 -->
-                  <el-radio-group v-model="searchForm.status">
-                  <el-radio label="5">全部</el-radio>
-                  <el-radio label="0">草稿</el-radio>
-                  <el-radio label="1">待审核</el-radio>
-                  <el-radio label="2">审核通过</el-radio>
-                  <el-radio label="3">审核失败</el-radio>
+                  <el-radio-group  @change="changCondition" v-model="searchForm.status">
+                  <el-radio :label="5">全部</el-radio>
+                  <el-radio :label="0">草稿</el-radio>
+                  <el-radio :label="1">待审核</el-radio>
+                  <el-radio :label="2">审核通过</el-radio>
+                  <el-radio :label="3">审核失败</el-radio>
                   </el-radio-group>
               </el-form-item>
               <el-form-item label="频道类型：">
-                  <el-select placeholder="请选择频道" value="">
-                      <el-option v-for="item in chanelList" :key="item.id" :label="item.name" :value="item.id" ></el-option>
+                  <el-select @change="changCondition" placeholder="请选择频道" v-model="searchForm.channel_id" value="">
+                      <el-option  v-for="item in chanelList" :key="item.id" :label="item.name" :value="item.id" ></el-option>
                   </el-select>
               </el-form-item>
               <el-form-item label="日期范围：">
-                  <el-date-picker type='daterange' v-model="searchForm.dateRange">
+                  <el-date-picker @change="changCondition" value-format='yyyy-MM-dd' type='daterange' v-model="searchForm.dateRange">
                     </el-date-picker>
               </el-form-item>
           </el-form>
@@ -65,25 +65,35 @@ export default {
     }
   },
   methods: {
-    getChannels () {
+    getChannels () { // 获取频道
       this.$axios({
         url: '/channels'
       }).then((res) => {
         this.chanelList = res.data.channels
       })
     },
-    getarticles () {
+    getarticles (params) { // 获取文章列表
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.newslist = res.data.results
       })
+    },
+    changCondition () { // 搜索类别改变重新获取文章列表
+      const params = {
+        status: this.searchForm.status === 5 ? null : this.searchForm.status, // 文章发布类型
+        channel_id: this.searchForm.channel_id, // 频道
+        begin_pubdata: this.searchForm.dateRange.length === 0 ? null : this.searchForm.dateRange[0], // 起始时间
+        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null // 截止时间
+      }
+      this.getarticles(params)
     }
   },
   created () {
-    this.getChannels()
-    this.getarticles()
+    this.getChannels() // 获取频道
+    this.getarticles() // 获取文章列表
   },
   filters: {
     changmsg (val) {
