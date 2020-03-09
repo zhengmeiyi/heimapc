@@ -47,7 +47,7 @@
             </div>
 
             <div class="right">
-              <span ><i class="el-icon-edit"> 修改</i></span>
+              <span @click="editMaterial(item.id.toString())"><i class="el-icon-edit"> 修改</i></span>
               <span @click="delMaterial(item.id.toString())"><i class="el-icon-delete" > 删除</i></span>
             </div>
           </div>
@@ -123,6 +123,9 @@ export default {
           this.$message.error('文章删除失败', '提示')
         })
       })
+    },
+    editMaterial (id) { // 跳往编辑文章页面
+      this.$router.push(`/home/publish/:${id}`)
     }
   },
   created () {

@@ -28,7 +28,7 @@ const routes = [
         path: '/home/articles', // 评论列表
         component: () => import('@/views/articles') // 按需加载articles
       }, {
-        path: '/home/publish', // 评论列表
+        path: '/home/publish/:articleId?', // 评论列表
         component: () => import('@/views/publish') // 按需加载
       }
     ]
