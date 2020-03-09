@@ -16,7 +16,7 @@
                   </el-radio-group>
               </el-form-item>
               <el-form-item label="频道类型：">
-                  <el-select placeholder="请选择频道">
+                  <el-select placeholder="请选择频道" value="">
                       <el-option v-for="item in chanelList" :key="item.id" :label="item.name" :value="item.id" ></el-option>
                   </el-select>
               </el-form-item>
@@ -28,15 +28,16 @@
           <div class="p">
             <p>共找到1000条符合条件的内容</p>
           </div>
-          <div class="newslist">
+          <div class="newslist" v-for="item in newslist" :key="item.id.toString()">
             <div class="left">
               <div class="cover">
-              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583743409233&di=b511298fd46d784374d5efae1d81b7f8&imgtype=0&src=http%3A%2F%2Fi-1.shouji56.com%2F2014%2F8%2F28%2Fdd41b9e1-fd62-4f93-b20f-48d476777b45.jpg" alt="">
+              <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
               </div>
               <div class="info">
-               <p>11111111111</p>
-               <el-tag type="success" style="width:60px">已发表</el-tag>
-               <p class="data">2020-03-09 13:40:22</p>
+               <p>{{item.title}}</p>
+               <!-- 两个过滤器 分别处理   显示文本 和 标签类型- -->
+               <el-tag :type="item.status | changtype" style="width:60px">{{item.status | changmsg}}</el-tag>
+               <p class="data">{{item.pubdate}}</p>
               </div>
             </div>
 
@@ -58,7 +59,9 @@ export default {
         channel_id: null,
         dateRange: []
       },
-      chanelList: []
+      chanelList: [],
+      newslist: [],
+      defaultImg: require('../../assets/img/timg.jpg')
     }
   },
   methods: {
@@ -68,10 +71,37 @@ export default {
       }).then((res) => {
         this.chanelList = res.data.channels
       })
+    },
+    getarticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(res => {
+        console.log(res)
+        this.newslist = res.data.results
+      })
     }
   },
   created () {
     this.getChannels()
+    this.getarticles()
+  },
+  filters: {
+    changmsg (val) {
+      switch (val) {
+        case 0 : return '草稿' // 0-草稿，1-待审核，2-审核通过，
+        case 1 : return '待审核'
+        case 2 : return '已发表'
+        case 3 : return '审核失败'
+      }
+    },
+    changtype (val) {
+      switch (val) {
+        case 0 : return 'info' // 0-草稿，1-待审核，2-审核通过，
+        case 1 : return 'danger'
+        case 2 : return 'success'
+        case 3 : return 'warning'
+      }
+    }
   }
 }
 </script>
