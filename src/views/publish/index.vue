@@ -11,15 +11,16 @@
        <!-- 富文本编辑器 -->
        <quill-editor v-model="publishForm.content" style="height:300px;margin-left:65px"></quill-editor>
      </el-form-item>
+     {{publishForm.cover.images}}
       <el-form-item label="封面：" prop="cover">
-       <el-radio-group v-model="publishForm.cover.type">
+       <el-radio-group @change="changeType" v-model="publishForm.cover.type">
          <el-radio :label="1">单图</el-radio>
          <el-radio :label="3">三图</el-radio>
          <el-radio :label="0">无图</el-radio>
          <el-radio :label="-1">自动</el-radio>
        </el-radio-group>
      </el-form-item >
-     <el-form-item prop="channel_id" label="频道：" v-model="channels">
+     <el-form-item  prop="channel_id" label="频道：" v-model="channels">
        <el-select v-model="publishForm.channel_id" placeholder="请选择频道" value="" >
          <!-- v-for="item in channels" :key="item" -->
          <el-option v-for="item in channels" :key="item.id" :value="item.id" :label="item.name"></el-option>
@@ -89,6 +90,15 @@ export default {
         console.log(res)
         this.publishForm = res.data
       })
+    },
+    changeType () { // 改变类型事件，封面
+      if (this.publishForm.cover.type === 1) {
+        this.publishForm.cover.images = ['']
+      } else if (this.publishForm.cover.type === 3) {
+        this.publishForm.cover.images = ['', '', '']
+      } else {
+        this.publishForm.cover.images = []
+      }
     }
   },
   created () {
