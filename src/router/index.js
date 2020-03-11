@@ -7,6 +7,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '*', // 404
+    component: () => import('@/views/404') // 按需加载
+  },
+  {
     path: '/',
     redirect: '/login'
   },
