@@ -38,6 +38,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -112,6 +113,24 @@ export default {
     this.getChannels()
     const { articleId } = this.$route.params // 获取id
     articleId && this.getArticleById(articleId) // 有id执行
+  },
+  watch: {
+    $route: function (to, from) {
+      // console.log(to)
+      if (to.params.articleId) {
+        this.getArticleById(to.params.articleId)
+      } else {
+        this.publishForm = {
+          title: '',
+          content: '',
+          cover: {
+            type: 0, // -1 是自动 0是无图  1 是单图 3 是三图
+            images: []
+          },
+          channel_id: null
+        }
+      }
+    }
   }
 
 }
