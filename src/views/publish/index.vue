@@ -11,7 +11,6 @@
        <!-- 富文本编辑器 -->
        <quill-editor v-model="publishForm.content" style="height:300px;margin-left:65px"></quill-editor>
      </el-form-item>
-     {{publishForm.cover.images}}
       <el-form-item label="封面：" prop="cover">
        <el-radio-group @change="changeType" v-model="publishForm.cover.type">
          <el-radio :label="1">单图</el-radio>
@@ -20,6 +19,10 @@
          <el-radio :label="-1">自动</el-radio>
        </el-radio-group>
      </el-form-item >
+     <!-- -----------------------------放置封面组件 -->
+     <!-- 用list给子组件传值 -->
+     <cover-image :list="publishForm.cover.images" @selectTwoImg="reseiveImg"></cover-image>
+     <!-- ---------------------------------------------- -->
      <el-form-item  prop="channel_id" label="频道：" v-model="channels">
        <el-select v-model="publishForm.channel_id" placeholder="请选择频道" value="" >
          <!-- v-for="item in channels" :key="item" -->
@@ -69,7 +72,7 @@ export default {
       this.$refs.myForm.validate().then(() => {
         const { articleId } = this.$route.params
         this.$axios({
-          url: `/articles/${articleId}`,
+          url: articleId ? `/articles/${articleId}` : '/articles',
           method: articleId ? 'put' : 'post',
           params: {
             draft
@@ -99,6 +102,10 @@ export default {
       } else {
         this.publishForm.cover.images = []
       }
+    },
+    reseiveImg (url, index) {
+      // this.publishForm.cover.images[index] = url
+      this.publishForm.cover.images.splice(index, 1, url)
     }
   },
   created () {
