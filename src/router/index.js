@@ -30,7 +30,11 @@ const routes = [
       }, {
         path: '/home/publish/:articleId?', // 评论列表
         component: () => import('@/views/publish') // 按需加载
+      }, {
+        path: '/home/account', // 评论列表
+        component: () => import('@/views/account') // 按需加载
       }
+
     ]
   },
   {
